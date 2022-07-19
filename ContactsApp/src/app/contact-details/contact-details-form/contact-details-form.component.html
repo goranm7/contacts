@@ -1,0 +1,140 @@
+<form class="p-3 my-3 mb-3 shadow rounded bg-light w-85">
+    <h5>Kontakt</h5>
+    <input type="hidden" name="contactDetailId"
+    [value]="service.formData.id" />
+    <div class="row">
+        <div class="col-md-4">
+            <label class="p-1 mb-3 bg-primary text-light rounded text-sm" style="font-weight: 600; font-size: small;" *ngIf="service.formData.tagDetailId > 0">{{ service.formData.tagDetail.title }}</label>
+            <div class="form-group form-group w-100">
+                <label>Ime</label>
+                <input style="font-weight: bold;" class="form-control-plaintext no-border" placeholder=""
+                name="contactName" #contactName="ngModel" [(ngModel)] = "service.formData.name" readonly>
+            </div>
+            <div class="form-group w-100 my-3">
+                <label>Prezime</label>
+                <input style="font-weight: bold;" class="form-control-plaintext" placeholder=""
+                name="contactSurname" #contactSurname="ngModel" [(ngModel)] = "service.formData.surname" readonly>
+            </div>
+            <div class="form-group w-100">
+                <label>Nadimak</label>
+                <input style="font-weight: bold;" class="form-control-plaintext" placeholder=""
+                name="contactNickname" #contactNickname="ngModel" [(ngModel)] = "service.formData.nickname" readonly>
+            </div>
+            <div class="form-group w-100 my-3">
+                <label>Adresa</label>
+                <input style="font-weight: bold;" class="form-control-plaintext" placeholder=""
+                name="contactAddress" #contactAddress="ngModel" [(ngModel)] = "service.formData.address" readonly>
+            </div>
+        </div>
+        <div class="col-md-8 shadow-sm">
+            <div class="small-table">
+                <div class="table-responsive">
+                    <table class="table table-hover shadow-sm rounded">
+                        <thead class="thead-light bg-light">
+                            <tr>
+                                <th style="font-weight: 600;">E-mailovi</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let mailData of service.formData.emails" class="contactList rounded">
+                                <td class="col-md-8">{{mailData.email}}</td>
+                               <td class="col-md-4">
+                                   <button type="button" class="btn btn-danger btn-sm" (click)="onDeleteMail(mailData)"><i class="fa fa-trash"></i></button>
+                               </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="small-table">
+                <div class="table-responsive">
+                    <table class="table table-hover shadow-sm rounded">
+                        <thead class="thead-light bg-light">
+                            <tr>
+                                <th style="font-weight: 600;">Brojevi</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let phoneData of service.formData.numbers" class="contactList rounded">
+                                <td class="col-md-8">{{phoneData.telephone}}</td>
+                               <td class="col-md-4">
+                                   <button type="button" class="btn btn-danger btn-sm"(click)="onDeletePhone(phoneData)"><i class="fa fa-trash"></i></button>
+                               </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="form-group w-75 my-3">
+            <button class="d-inline btn btn-danger" (click)="onDelete(this.service.formData)"><i class="fa fa-trash"></i> Izbriši</button>
+            <button class="d-inline btn btn-primary mx-1"(click)="openAddMailModal()"><i class="fa fa-envelope"></i> Dodaj mail</button>
+            <button class="d-inline btn btn-primary"(click)="openAddPhoneModal()"><i class="fa fa-phone"></i> Dodaj broj</button>
+            <button class="d-inline btn btn-primary mx-1"  (click)="onEditContact()"><i class="fa fa-pen-to-square"></i> Uredi kontakt</button>
+        </div>
+
+    </div>
+
+</form>
+
+<div class="modal fade" id="formModalEmail" tabindex="-1" role="dialog" >
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Dodaj e-mail</h5>
+          <button type="button" class="btn btn-light" (click)="closeAddMailModal()"><i class="fa fa-xmark"></i></button>
+        </div>
+        <div class="modal-body">
+            <form novalidate #mailForm="ngForm" (submit)="onSubmitMail(mailForm)"class="p-3 my-3 mb-3 rounded w-85">
+                <input type="hidden" name="contactDetailId"
+                [value]="service.formData.id" />
+                    <div class="shadow-sm">
+                        <div class="form-group form-group w-100">
+                            <label style="font-weight: bold;">E-mail</label>
+                            <input class="shadow-sm form-control no-border" placeholder=""
+                            name="inputNewEmail" #inputNewEmail="ngModel" [(ngModel)] = "emailService.emailData.email" required [class.invalid]="inputNewEmail.invalid && inputNewEmail.touched">
+                        </div>
+                     
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" (click)="closeAddMailModal()">Zatvori</button>
+                        <button type="submit" class="btn btn-primary" [disabled]="mailForm.invalid">Spremi</button>
+                    </div>
+            </form>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="formModalTelephone" tabindex="-1" role="dialog" >
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Dodaj broj</h5>
+          <button type="button" class="btn btn-light" (click)="closeAddPhoneModal()"><i class="fa fa-xmark"></i></button>
+        </div>
+        <div class="modal-body">
+            <form novalidate #phoneForm="ngForm" (submit)="onSubmitPhone(phoneForm)"class="p-3 my-3 mb-3 rounded w-85">
+                <input type="hidden" name="contactDetailId"
+                [value]="service.formData.id" />
+                    <div class="shadow-sm">
+                        <div class="form-group form-group w-100">
+                            <label style="font-weight: bold;">Broj</label>
+                            <input class="shadow-sm form-control no-border" placeholder="+123 45 678 910"
+                            name="inputNewPhone" #inputNewPhone="ngModel" [(ngModel)] = "telephoneService.telephoneData.telephone" required [class.invalid]="inputNewPhone.invalid && inputNewPhone.touched">
+                        </div>
+                     
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" (click)="closeAddPhoneModal()">Zatvori</button>
+                        <button type="submit" class="btn btn-primary" [disabled]="phoneForm.invalid">Spremi</button>
+                    </div>
+            </form>
+        </div>
+        
+      </div>
+    </div>
+  </div>

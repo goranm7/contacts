@@ -1,0 +1,48 @@
+<div class="small-table">
+    <div class="table-responsive">
+        <table class="table table-hover shadow-sm rounded">
+            <thead class="thead-light bg-light">
+               
+            </thead>
+            <tbody>
+                <tr *ngFor="let tagData of tagService.tags" class="contactList rounded">
+                    <td class="col-md-8">{{tagData.title}}</td>
+                   <td class="col-md-4">
+                       <button type="button" class="btn btn-danger btn-sm" (click)="onDelete(tagData)"><i class="fa fa-trash"></i></button>
+                   </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<div class="modal fade" id="addTagModal" tabindex="-1" role="dialog" >
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Dodaj tag</h5>
+          <button type="button" class="btn btn-light" (click)="closeAddTagModal()"><i class="fa fa-xmark"></i></button>
+        </div>
+        <div class="modal-body">
+
+            <form  novalidate #tagForm="ngForm" (submit)="onSubmitAddTag(tagForm)" class="p-3 my-3 mb-3 rounded w-85">
+                <input type="hidden" name="tagDetailId"
+                [value]="tagService.tagModel.id" />
+                    <div class="shadow-sm">
+                        <div class="form-group form-group w-100">
+                            <label style="font-weight: bold;">* Naziv</label>
+                            <input class="shadow-sm form-control no-border" placeholder=""
+                            name="inputTagName" #inputTagName="ngModel" [(ngModel)] = "tagService.tagModel.title" required [class.invalid]="inputTagName.invalid && inputTagName.touched">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary" [disabled]="tagForm.invalid">Spremi</button>
+                        <button type="button" class="btn btn-secondary mx-2" (click)="closeAddTagModal()">Zatvori</button>
+                    </div>
+            </form>
+        </div>
+      </div>
+    </div>
+  </div>
+

@@ -1,0 +1,160 @@
+<div class="jumbotron py-2 bg-light shadow-sm">
+    <h1 class="display-5 text-center">Kontakti</h1>
+</div>
+
+<div class="row justify-content-center mt-3">
+    <div class="col-md-4">
+        <button type="button" class="btn btn-primary btn-sm" (click)="openAddModal()"><i class="fa fa-plus"></i> Dodaj kontakt</button>
+        <button type="button" class="btn btn-primary btn-sm mx-2" (click)="openTagModal()"><i class="fa fa-tag"></i> Tagovi</button>
+        <button type="button" class="btn btn-primary btn-sm mx"(click)="openFilterModal()"><i class="fa fa-filter"></i> Filtriraj</button>
+        <div class="large-table">
+            <div class="table-responsive">
+                <table class="table table-hover mt-3 shadow-sm rounded">
+                    <thead class="thead-light bg-light">
+                        <tr>
+                            <th>Ime</th>
+                            <th>Prezime</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let cd of service.list" class="contactList rounded" style="cursor: pointer;">
+                            <td (click)="updateContactData(cd)">{{cd.name}}</td>
+                            <td (click)="updateContactData(cd)">{{cd.surname}}</td>
+                            
+                           <td>
+                               <button type="button" class="btn btn-light btn-sm" (click)="openEditModal(cd)"><i class="fa fa-pen-to-square"></i></button>
+                               <button type="button" class="btn btn-danger btn-sm mx-3" (click)="onDeleteContact(cd)"><i class="fa fa-trash"></i></button>
+                           </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <router-outlet></router-outlet>
+    </div>
+</div>
+
+
+<!-- MODALI -->
+<div class="modal fade" id="formModalEdit" tabindex="-1" role="dialog" >
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Informacije o kontaktu</h5>
+          <button type="button" class="btn btn-light" (click)="closeModal()"><i class="fa fa-xmark"></i></button>
+        </div>
+        <div class="modal-body">
+            <form  novalidate #form="ngForm" (submit)="onSubmitEditContact(form)" class="p-3 my-3 mb-3 rounded w-85">
+                <input type="hidden" name="contactDetailId"
+                [value]="service.editFormData.id" />
+                    <div class="shadow-sm">
+                        <div class="form-group form-group w-100">
+                            <label style="font-weight: bold;">* Ime</label>
+                            <input class="shadow-sm form-control no-border" placeholder=""
+                            name="inputContactName" #inputContactName="ngModel" [(ngModel)] = "service.editFormData.name" required [class.invalid]="inputContactName.invalid && inputContactName.touched">
+                        </div>
+                        <div class="form-group w-100 my-3">
+                            <label style="font-weight: bold;">* Prezime</label>
+                            <input class="shadow-sm form-control"  placeholder=""
+                            name="inputContactSurname" #inputContactSurname="ngModel" [(ngModel)] = "service.editFormData.surname" required [class.invalid]="inputContactSurname.invalid && inputContactSurname.touched">
+                        </div>
+                        <div class="form-group w-100">
+                            <label style="font-weight: bold;"> Nadimak</label>
+                            <input class="shadow-sm form-control"  placeholder=""
+                            name="inputContactNickname" #inputContactNickname="ngModel" [(ngModel)] = "service.editFormData.nickname" >
+                        </div>
+                        <div class="form-group w-100 my-3">
+                            <label style="font-weight: bold;"> Adresa</label>
+                            <input class="shadow-sm form-control"  placeholder=""
+                            name="inputContactAddress" #inputContactAddress="ngModel" [(ngModel)] = "service.editFormData.address">
+                        </div>
+                        <div class="form-group w-100 my-3">
+                            <label style="font-weight: bold;"> Tag</label>
+                            <select [(ngModel)] = "service.editFormData.tagDetailId" name="option" class="form-select" id="selectAction" (change) = "editContactTagChange(t.value)" #t>
+                                <option [value]=0>Nema</option>
+                                <option *ngFor="let tD of tagService.tags" [value]="tD.id">
+                                    {{ tD.title }}
+                                </option>
+                            </select>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" (click)="closeModal()">Zatvori</button>
+                        <button type="submit" class="btn btn-primary mx-3" [disabled]="form.invalid">Spremi</button>
+                    </div>
+            </form>
+            
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="modal fade" id="tagModal" tabindex="-1" role="dialog" >
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Tagovi</h5>
+          <button type="button" class="btn btn-light" (click)="closeTagModal()"><i class="fa fa-xmark"></i></button>
+        </div>
+        <div class="modal-body">
+            <app-tag-form></app-tag-form>
+            <button type="button" class="btn btn-primary"(click)="openAddTagModal()"><i class="fa fa-plus"></i> Dodaj tag</button>
+            <button type="button" class="btn btn-secondary mx-2" (click)="closeTagModal()">Zatvori</button>
+            
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="filterModal" tabindex="-1" role="dialog" >
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Filteri</h5>
+          <button type="button" class="btn btn-light" (click)="closeFilterModal()"><i class="fa fa-xmark"></i></button>
+        </div>
+        <div class="modal-body">
+            <form class="p-3 mb-3 rounded w-85">
+                    <div class="shadow-sm">
+                        <div class="form-group form-group w-100">
+                            <label style="font-weight: bold;">Ime</label>
+                            <input class="shadow-sm form-control no-border" placeholder=""
+                            name="filterContactName" #filterContactName="ngModel" [(ngModel)] = "service.contactFilters.name">
+                        </div>
+                        <div class="form-group form-group w-100 my-3">
+                            <label style="font-weight: bold;">Prezime</label>
+                            <input class="shadow-sm form-control no-border" placeholder=""
+                            name="filterContactSurname" #filterContactSurname="ngModel" [(ngModel)] = "service.contactFilters.surname">
+                        </div>
+                        <div class="form-group w-100 my-3">
+                            <label style="font-weight: bold;"> Tag</label>
+                            <select [(ngModel)] = "service.contactFilters.tagId" name="optionFilter" class="form-select" id="selectAction" (change) = "filterTagChange(f.value)" #f>
+                                <option [value]=0>Nema</option>
+                                <option *ngFor="let tD of tagService.tags" [value]="tD.id">
+                                    {{ tD.title }}
+                                </option>
+                            </select>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" (click)="closeFilterModal()">Zatvori</button>
+                        <button type="button" class="btn btn-primary mx-3" (click)="saveFilterModal()">Pretraži</button>
+                    </div>
+            </form>
+            
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+  
+

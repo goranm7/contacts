@@ -1,0 +1,28 @@
+/* You can add global styles to this file, and also import other style files */
+input:hover, 
+input:active, 
+input:focus
+{
+    outline:0px !important;
+    -webkit-appearance:none;
+    box-shadow: none !important;
+}
+
+
+
+.mailTable{
+    border-collapse: separate;
+    border-spacing: 0 10em;
+}
+
+.large-table > .table-responsive{
+    max-height: 600px;
+}
+
+.small-table > .table-responsive{
+    max-height: 200px;
+}
+
+.table>:not(:first-child) {
+    border-top: 1px solid #fff !important;
+  }

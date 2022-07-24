@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
-import { TagDetail } from './tag-detail.model';
+import { Tag } from './tag.model';
 import { HttpClient } from "@angular/common/http";
 declare var window:any;
 @Injectable({
   providedIn: 'root'
 })
-export class TagDetailService {
-  tags: TagDetail[];
-  tagModel: TagDetail = new TagDetail();
+export class TagService {
+  tags: Tag[];
+  tagModel: Tag = new Tag();
   tagModal: any;
   addTagModal: any;
   constructor(private http: HttpClient) { }
@@ -21,23 +21,23 @@ export class TagDetailService {
   }
 
   openAddTagModal(){
-    this.tagModel = new TagDetail();
+    this.tagModel = new Tag();
     this.addTagModal.show();
   }
 
   closeAddTagModal(){
-    this.tagModel = new TagDetail();
+    this.tagModel = new Tag();
     this.addTagModal.toggle();
   }
 
-  readonly baseURL = "http://localhost:5297/api/TagDetails"
+  readonly baseURL = "http://localhost:5297/api/Tag"
 
 
   getTags(){
-    return this.http.get<TagDetail[]>(this.baseURL);
+    return this.http.get<Tag[]>(this.baseURL);
   }
 
-  postTag(data:TagDetail){
+  postTag(data:Tag){
     return this.http.post(this.baseURL,data);
   }
 
@@ -48,7 +48,7 @@ export class TagDetailService {
  
 
   refreshTags(){
-    this.getTags().subscribe((data:TagDetail[])=> {
+    this.getTags().subscribe((data:Tag[])=> {
       this.tags = data;
     });
   }

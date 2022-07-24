@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Contacts_API.Models
 {
-    public class ContactDetail
+    public class Contact
     {
         [Key]
         public int Id { get; set; }
@@ -16,11 +16,11 @@ namespace Contacts_API.Models
         [Column("Address")]
         public string Address { get; set; } = string.Empty;
         [Column("Tag")]
-        public int? TagDetailId { get; set; }
-        public virtual TagDetail? TagDetail { get; set; }
+        public int? TagId { get; set; }
+        public virtual Tag? Tag { get; set; }
 
-        public virtual List<EmailDetail>? Emails { get; set; }
+        public virtual List<Email>? Emails { get; set; }
 
-        public virtual List<TelephoneDetail>? Numbers { get; set; }
+        public virtual List<Telephone>? Numbers { get; set; }
     }
 }

@@ -1,23 +1,25 @@
 import { Injectable } from '@angular/core';
-import { TelephoneDetail } from './telephone-detail.model';
 import { HttpClient } from "@angular/common/http";
+import { Email } from './email.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class TelephoneDetailService {
-  telephoneData: TelephoneDetail = new TelephoneDetail();
+export class EmailService {
+  emailData: Email = new Email();
+  readonly baseURL = "http://localhost:5297/api/Email"
 
   constructor(private http: HttpClient) { }
 
-  readonly baseURL = "http://localhost:5297/api/TelephoneDetails"
 
-
-  postPhone(data:TelephoneDetail){
+  postEmail(data:Email){
     return this.http.post(this.baseURL,data);
   }
 
-  deletePhone(id:number){
+  deleteEmail(id:number){
     return this.http.delete(`${this.baseURL}/${id}`);
   }
+
+
+
 }

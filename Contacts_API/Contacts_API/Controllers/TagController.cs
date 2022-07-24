@@ -11,35 +11,35 @@ namespace Contacts_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TagDetailsController : ControllerBase
+    public class TagController : ControllerBase
     {
-        private readonly ContactDetailContext _context;
+        private readonly ContactContext _context;
 
-        public TagDetailsController(ContactDetailContext context)
+        public TagController(ContactContext context)
         {
             _context = context;
         }
 
         // GET: api/TagDetails
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<TagDetail>>> GetTagDetails()
+        public async Task<ActionResult<IEnumerable<Tag>>> GetTagDetails()
         {
-          if (_context.TagDetails == null)
+          if (_context.Tags == null)
           {
               return NotFound();
           }
-            return await _context.TagDetails.ToListAsync();
+            return await _context.Tags.ToListAsync();
         }
 
         // GET: api/TagDetails/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<TagDetail>> GetTagDetail(int id)
+        public async Task<ActionResult<Tag>> GetTagDetail(int id)
         {
-          if (_context.TagDetails == null)
+          if (_context.Tags == null)
           {
               return NotFound();
           }
-            var tagDetail = await _context.TagDetails.FindAsync(id);
+            var tagDetail = await _context.Tags.FindAsync(id);
 
             if (tagDetail == null)
             {
@@ -52,7 +52,7 @@ namespace Contacts_API.Controllers
         // PUT: api/TagDetails/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutTagDetail(int id, TagDetail tagDetail)
+        public async Task<IActionResult> PutTagDetail(int id, Tag tagDetail)
         {
             if (id != tagDetail.Id)
             {
@@ -83,13 +83,13 @@ namespace Contacts_API.Controllers
         // POST: api/TagDetails
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<TagDetail>> PostTagDetail(TagDetail tagDetail)
+        public async Task<ActionResult<Tag>> PostTagDetail(Tag tagDetail)
         {
-          if (_context.TagDetails == null)
+          if (_context.Tags == null)
           {
               return Problem("Entity set 'ContactDetailContext.TagDetails'  is null.");
           }
-            _context.TagDetails.Add(tagDetail);
+            _context.Tags.Add(tagDetail);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetTagDetail", new { id = tagDetail.Id }, tagDetail);
@@ -99,17 +99,17 @@ namespace Contacts_API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTagDetail(int id)
         {
-            if (_context.TagDetails == null)
+            if (_context.Tags == null)
             {
                 return NotFound();
             }
-            var tagDetail = await _context.TagDetails.FindAsync(id);
+            var tagDetail = await _context.Tags.FindAsync(id);
             if (tagDetail == null)
             {
                 return NotFound();
             }
 
-            _context.TagDetails.Remove(tagDetail);
+            _context.Tags.Remove(tagDetail);
             await _context.SaveChangesAsync();
 
             return NoContent();
@@ -117,7 +117,7 @@ namespace Contacts_API.Controllers
 
         private bool TagDetailExists(int id)
         {
-            return (_context.TagDetails?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Tags?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

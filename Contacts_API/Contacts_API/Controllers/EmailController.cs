@@ -11,35 +11,35 @@ namespace Contacts_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class EmailDetailsController : ControllerBase
+    public class EmailController : ControllerBase
     {
-        private readonly ContactDetailContext _context;
+        private readonly ContactContext _context;
 
-        public EmailDetailsController(ContactDetailContext context)
+        public EmailController(ContactContext context)
         {
             _context = context;
         }
 
         // GET: api/EmailDetails
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<EmailDetail>>> GetEmailDetails()
+        public async Task<ActionResult<IEnumerable<Email>>> GetEmailDetails()
         {
-          if (_context.EmailDetails == null)
+          if (_context.Emails == null)
           {
               return NotFound();
           }
-            return await _context.EmailDetails.ToListAsync();
+            return await _context.Emails.ToListAsync();
         }
 
         // GET: api/EmailDetails/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<EmailDetail>> GetEmailDetail(int id)
+        public async Task<ActionResult<Email>> GetEmailDetail(int id)
         {
-          if (_context.EmailDetails == null)
+          if (_context.Emails == null)
           {
               return NotFound();
           }
-            var emailDetail = await _context.EmailDetails.FindAsync(id);
+            var emailDetail = await _context.Emails.FindAsync(id);
 
             if (emailDetail == null)
             {
@@ -52,7 +52,7 @@ namespace Contacts_API.Controllers
         // PUT: api/EmailDetails/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutEmailDetail(int id, EmailDetail emailDetail)
+        public async Task<IActionResult> PutEmailDetail(int id, Email emailDetail)
         {
             if (id != emailDetail.Id)
             {
@@ -83,13 +83,13 @@ namespace Contacts_API.Controllers
         // POST: api/EmailDetails
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<EmailDetail>> PostEmailDetail(EmailDetail emailDetail)
+        public async Task<ActionResult<Email>> PostEmailDetail(Email emailDetail)
         {
-          if (_context.EmailDetails == null)
+          if (_context.Emails == null)
           {
               return Problem("Entity set 'ContactDetailContext.EmailDetails'  is null.");
           }
-            _context.EmailDetails.Add(emailDetail);
+            _context.Emails.Add(emailDetail);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetEmailDetail", new { id = emailDetail.Id }, emailDetail);
@@ -99,17 +99,17 @@ namespace Contacts_API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteEmailDetail(int id)
         {
-            if (_context.EmailDetails == null)
+            if (_context.Emails == null)
             {
                 return NotFound();
             }
-            var emailDetail = await _context.EmailDetails.FindAsync(id);
+            var emailDetail = await _context.Emails.FindAsync(id);
             if (emailDetail == null)
             {
                 return NotFound();
             }
 
-            _context.EmailDetails.Remove(emailDetail);
+            _context.Emails.Remove(emailDetail);
             await _context.SaveChangesAsync();
 
             return NoContent();
@@ -117,7 +117,7 @@ namespace Contacts_API.Controllers
 
         private bool EmailDetailExists(int id)
         {
-            return (_context.EmailDetails?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Emails?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

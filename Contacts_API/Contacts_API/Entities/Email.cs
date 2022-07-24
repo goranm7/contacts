@@ -2,12 +2,12 @@
 
 namespace Contacts_API.Models
 {
-    public class EmailDetail
+    public class Email
     {
         public int Id { get; set; }
-        public string Email { get; set; } = string.Empty;
+        public string Mail { get; set; } = string.Empty;
 
-        public int ContactDetailId { get; set; }
+        public int ContactId { get; set; }
         
     }
 }

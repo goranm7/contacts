@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ContactDetail } from './contact-detail.model';
+import { Contact } from './contact.model';
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { ContactFilter } from './contact-filter.model';
 
@@ -8,20 +8,20 @@ declare var window:any;
 @Injectable({
   providedIn: 'root'
 })
-export class ContactDetailService {
+export class ContactService {
 
   constructor(private http: HttpClient) { }
-  formData: ContactDetail = new ContactDetail();
-  editFormData: ContactDetail = new ContactDetail();
-  list: ContactDetail[];
+  formData: Contact = new Contact();
+  editFormData: Contact = new Contact();
+  list: Contact[];
   formModal:any;
   contactFilters: ContactFilter = new ContactFilter();
 
 
-  readonly baseURL = "http://localhost:5297/api/ContactDetails"
+  readonly baseURL = "http://localhost:5297/api/Contact"
 
-  getContactDetail(id:number){
-    return this.http.get<ContactDetail>(`${this.baseURL}/${id}`);
+  getContact(id:number){
+    return this.http.get<Contact>(`${this.baseURL}/${id}`);
   }
 
   getContacts(){
@@ -38,51 +38,51 @@ export class ContactDetailService {
       params = params.set("tagId",this.contactFilters.tagId);
     }
 
-    return this.http.get<ContactDetail[]>(this.baseURL,{params});
+    return this.http.get<Contact[]>(this.baseURL,{params});
   }
 
-  postContactDetail(data: ContactDetail){
+  postContact(data: Contact){
  
     return this.http.post(this.baseURL,data);
   }
 
-  putContactDetail(data: ContactDetail, id:number){
+  putContact(data: Contact, id:number){
     console.log(`${this.baseURL}/${id}`);
     return this.http.put(`${this.baseURL}/${id}`,data);
   }
 
-  deleteContactDetail(id:number){
+  deleteContact(id:number){
     return this.http.delete(`${this.baseURL}/${id}`);
   }
 
   refreshContacts(){
-    this.getContacts().subscribe((data:ContactDetail[])=> {
+    this.getContacts().subscribe((data:Contact[])=> {
       this.list = data;
     });
     if (this.formData.id > 0){
-      this.getContactDetail(this.formData.id).subscribe((data:ContactDetail)=>this.formData = data);
+      this.getContact(this.formData.id).subscribe((data:Contact)=>this.formData = data);
     }
     
   }
 
 
 
-  updateEditFormData(selectedData: ContactDetail){
+  updateEditFormData(selectedData: Contact){
     this.editFormData = Object.assign({},selectedData);
   }
 
-  openEditModal(selectedData: ContactDetail){
+  openEditModal(selectedData: Contact){
     this.updateEditFormData(selectedData);
     this.formModal.show();
   }
 
   openAddModal(){
-    this.editFormData = new ContactDetail();
+    this.editFormData = new Contact();
     this.formModal.show();
   }
 
   closeModal(){
-    this.editFormData = new ContactDetail();
+    this.editFormData = new Contact();
     this.formModal.toggle();
   }
 

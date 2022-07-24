@@ -4,7 +4,7 @@
     [value]="service.formData.id" />
     <div class="row">
         <div class="col-md-4">
-            <label class="p-1 mb-3 bg-primary text-light rounded text-sm" style="font-weight: 600; font-size: small;" *ngIf="service.formData.tagDetailId > 0">{{ service.formData.tagDetail.title }}</label>
+            <label class="p-1 mb-3 bg-primary text-light rounded text-sm" style="font-weight: 600; font-size: small;" *ngIf="service.formData.tagId > 0">{{ service.formData.tag.title }}</label>
             <div class="form-group form-group w-100">
                 <label>Ime</label>
                 <input style="font-weight: bold;" class="form-control-plaintext no-border" placeholder=""
@@ -38,7 +38,7 @@
                         </thead>
                         <tbody>
                             <tr *ngFor="let mailData of service.formData.emails" class="contactList rounded">
-                                <td class="col-md-8">{{mailData.email}}</td>
+                                <td class="col-md-8">{{mailData.mail}}</td>
                                <td class="col-md-4">
                                    <button type="button" class="btn btn-danger btn-sm" (click)="onDeleteMail(mailData)"><i class="fa fa-trash"></i></button>
                                </td>
@@ -58,7 +58,7 @@
                         </thead>
                         <tbody>
                             <tr *ngFor="let phoneData of service.formData.numbers" class="contactList rounded">
-                                <td class="col-md-8">{{phoneData.telephone}}</td>
+                                <td class="col-md-8">{{phoneData.phone}}</td>
                                <td class="col-md-4">
                                    <button type="button" class="btn btn-danger btn-sm"(click)="onDeletePhone(phoneData)"><i class="fa fa-trash"></i></button>
                                </td>
@@ -94,7 +94,7 @@
                         <div class="form-group form-group w-100">
                             <label style="font-weight: bold;">E-mail</label>
                             <input class="shadow-sm form-control no-border" placeholder=""
-                            name="inputNewEmail" #inputNewEmail="ngModel" [(ngModel)] = "emailService.emailData.email" required [class.invalid]="inputNewEmail.invalid && inputNewEmail.touched">
+                            name="inputNewEmail" #inputNewEmail="ngModel" [(ngModel)] = "emailService.emailData.mail" required [class.invalid]="inputNewEmail.invalid && inputNewEmail.touched">
                         </div>
                      
                     </div>
@@ -124,7 +124,7 @@
                         <div class="form-group form-group w-100">
                             <label style="font-weight: bold;">Broj</label>
                             <input class="shadow-sm form-control no-border" placeholder="+123 45 678 910"
-                            name="inputNewPhone" #inputNewPhone="ngModel" [(ngModel)] = "telephoneService.telephoneData.telephone" required [class.invalid]="inputNewPhone.invalid && inputNewPhone.touched">
+                            name="inputNewPhone" #inputNewPhone="ngModel" [(ngModel)] = "telephoneService.telephoneData.phone" required [class.invalid]="inputNewPhone.invalid && inputNewPhone.touched">
                         </div>
                      
                     </div>

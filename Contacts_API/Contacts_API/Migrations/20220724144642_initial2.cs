@@ -4,7 +4,7 @@
 
 namespace Contacts_API.Migrations
 {
-    public partial class mig2 : Migration
+    public partial class initial2 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

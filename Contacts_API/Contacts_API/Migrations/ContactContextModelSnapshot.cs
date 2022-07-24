@@ -4,18 +4,16 @@ using Contacts_API.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
 namespace Contacts_API.Migrations
 {
-    [DbContext(typeof(ContactDetailContext))]
-    [Migration("20220716141516_mig2")]
-    partial class mig2
+    [DbContext(typeof(ContactContext))]
+    partial class ContactContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -24,7 +22,7 @@ namespace Contacts_API.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("Contacts_API.Models.ContactDetail", b =>
+            modelBuilder.Entity("Contacts_API.Models.Contact", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -52,18 +50,18 @@ namespace Contacts_API.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("Surname");
 
-                    b.Property<int?>("TagDetailId")
+                    b.Property<int?>("TagId")
                         .HasColumnType("int")
                         .HasColumnName("Tag");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TagDetailId");
+                    b.HasIndex("TagId");
 
-                    b.ToTable("ContactDetails");
+                    b.ToTable("Contacts");
                 });
 
-            modelBuilder.Entity("Contacts_API.Models.EmailDetail", b =>
+            modelBuilder.Entity("Contacts_API.Models.Email", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -71,21 +69,21 @@ namespace Contacts_API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("ContactDetailId")
+                    b.Property<int>("ContactId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Email")
+                    b.Property<string>("Mail")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ContactDetailId");
+                    b.HasIndex("ContactId");
 
-                    b.ToTable("EmailDetails");
+                    b.ToTable("Emails");
                 });
 
-            modelBuilder.Entity("Contacts_API.Models.TagDetail", b =>
+            modelBuilder.Entity("Contacts_API.Models.Tag", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -99,10 +97,10 @@ namespace Contacts_API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TagDetails");
+                    b.ToTable("Tags");
                 });
 
-            modelBuilder.Entity("Contacts_API.Models.TelephoneDetail", b =>
+            modelBuilder.Entity("Contacts_API.Models.Telephone", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -110,48 +108,48 @@ namespace Contacts_API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("ContactDetailId")
+                    b.Property<int>("ContactId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Telephone")
+                    b.Property<string>("Phone")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ContactDetailId");
+                    b.HasIndex("ContactId");
 
-                    b.ToTable("TelephoneDetails");
+                    b.ToTable("Telephones");
                 });
 
-            modelBuilder.Entity("Contacts_API.Models.ContactDetail", b =>
+            modelBuilder.Entity("Contacts_API.Models.Contact", b =>
                 {
-                    b.HasOne("Contacts_API.Models.TagDetail", "TagDetail")
+                    b.HasOne("Contacts_API.Models.Tag", "Tag")
                         .WithMany()
-                        .HasForeignKey("TagDetailId");
+                        .HasForeignKey("TagId");
 
-                    b.Navigation("TagDetail");
+                    b.Navigation("Tag");
                 });
 
-            modelBuilder.Entity("Contacts_API.Models.EmailDetail", b =>
+            modelBuilder.Entity("Contacts_API.Models.Email", b =>
                 {
-                    b.HasOne("Contacts_API.Models.ContactDetail", null)
+                    b.HasOne("Contacts_API.Models.Contact", null)
                         .WithMany("Emails")
-                        .HasForeignKey("ContactDetailId")
+                        .HasForeignKey("ContactId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Contacts_API.Models.TelephoneDetail", b =>
+            modelBuilder.Entity("Contacts_API.Models.Telephone", b =>
                 {
-                    b.HasOne("Contacts_API.Models.ContactDetail", null)
+                    b.HasOne("Contacts_API.Models.Contact", null)
                         .WithMany("Numbers")
-                        .HasForeignKey("ContactDetailId")
+                        .HasForeignKey("ContactId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Contacts_API.Models.ContactDetail", b =>
+            modelBuilder.Entity("Contacts_API.Models.Contact", b =>
                 {
                     b.Navigation("Emails");
 

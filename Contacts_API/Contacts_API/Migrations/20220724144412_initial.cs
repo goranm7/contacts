@@ -9,7 +9,7 @@ namespace Contacts_API.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "TagDetails",
+                name: "Tags",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -18,11 +18,11 @@ namespace Contacts_API.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TagDetails", x => x.Id);
+                    table.PrimaryKey("PK_Tags", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "ContactDetails",
+                name: "Contacts",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -35,83 +35,83 @@ namespace Contacts_API.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ContactDetails", x => x.Id);
+                    table.PrimaryKey("PK_Contacts", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ContactDetails_TagDetails_Tag",
+                        name: "FK_Contacts_Tags_Tag",
                         column: x => x.Tag,
-                        principalTable: "TagDetails",
+                        principalTable: "Tags",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "EmailDetails",
+                name: "Emails",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ContactDetailId = table.Column<int>(type: "int", nullable: false)
+                    Mail = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ContactId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_EmailDetails", x => x.Id);
+                    table.PrimaryKey("PK_Emails", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_EmailDetails_ContactDetails_ContactDetailId",
-                        column: x => x.ContactDetailId,
-                        principalTable: "ContactDetails",
+                        name: "FK_Emails_Contacts_ContactId",
+                        column: x => x.ContactId,
+                        principalTable: "Contacts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "TelephoneDetails",
+                name: "Telephones",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Telephone = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ContactDetailId = table.Column<int>(type: "int", nullable: false)
+                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ContactId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TelephoneDetails", x => x.Id);
+                    table.PrimaryKey("PK_Telephones", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_TelephoneDetails_ContactDetails_ContactDetailId",
-                        column: x => x.ContactDetailId,
-                        principalTable: "ContactDetails",
+                        name: "FK_Telephones_Contacts_ContactId",
+                        column: x => x.ContactId,
+                        principalTable: "Contacts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ContactDetails_Tag",
-                table: "ContactDetails",
+                name: "IX_Contacts_Tag",
+                table: "Contacts",
                 column: "Tag");
 
             migrationBuilder.CreateIndex(
-                name: "IX_EmailDetails_ContactDetailId",
-                table: "EmailDetails",
-                column: "ContactDetailId");
+                name: "IX_Emails_ContactId",
+                table: "Emails",
+                column: "ContactId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TelephoneDetails_ContactDetailId",
-                table: "TelephoneDetails",
-                column: "ContactDetailId");
+                name: "IX_Telephones_ContactId",
+                table: "Telephones",
+                column: "ContactId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "EmailDetails");
+                name: "Emails");
 
             migrationBuilder.DropTable(
-                name: "TelephoneDetails");
+                name: "Telephones");
 
             migrationBuilder.DropTable(
-                name: "ContactDetails");
+                name: "Contacts");
 
             migrationBuilder.DropTable(
-                name: "TagDetails");
+                name: "Tags");
         }
     }
 }

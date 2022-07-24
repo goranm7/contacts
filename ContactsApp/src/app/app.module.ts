@@ -6,8 +6,8 @@ import { RouterModule } from '@angular/router';
 
 
 import { AppComponent } from './app.component';
-import { ContactDetailsComponent } from './contact-details/contact-details.component';
-import { ContactDetailsFormComponent } from './contact-details/contact-details-form/contact-details-form.component';
+import { ContactComponent } from './contact-details/contact.component';
+import { ContactFormComponent } from './contact-details/contact-details-form/contact-form.component';
 import { ChooseContactComponent } from './contact-details/choose-contact/choose-contact.component';
 import { TagFormComponent } from './contact-details/tag-form/tag-form.component';
 
@@ -15,8 +15,8 @@ import { TagFormComponent } from './contact-details/tag-form/tag-form.component'
 @NgModule({
   declarations: [
     AppComponent,
-    ContactDetailsComponent,
-    ContactDetailsFormComponent,
+    ContactComponent,
+    ContactFormComponent,
     ChooseContactComponent,
     TagFormComponent
   ],
@@ -25,7 +25,7 @@ import { TagFormComponent } from './contact-details/tag-form/tag-form.component'
     FormsModule,
     HttpClientModule,
     RouterModule.forRoot([
-      {path: 'contact', component: ContactDetailsFormComponent},
+      {path: 'contact', component: ContactFormComponent},
       {path: '', component: ChooseContactComponent}
     ])
   ],

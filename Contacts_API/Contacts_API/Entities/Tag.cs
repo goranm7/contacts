@@ -2,7 +2,7 @@
 
 namespace Contacts_API.Models
 {
-    public class TagDetail
+    public class Tag
     {
         [Key]
         public int Id { get; set; }

@@ -1,26 +1,26 @@
 import { Component, OnInit } from '@angular/core';
-import { ContactDetail } from '../shared/contact-detail.model';
-import { ContactDetailService } from '../shared/contact-detail.service';
+import { Contact} from '../shared/contact.model';
+import { ContactService } from '../shared/contact.service';
 import { NgForm } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import { TagDetailService } from '../shared/tag-detail.service';
+import { TagService } from '../shared/tag.service';
 import { ContactFilter } from '../shared/contact-filter.model';
 
 declare var window:any;
 
 @Component({
-  selector: 'app-contact-details',
-  templateUrl: './contact-details.component.html',
+  selector: 'app-contact',
+  templateUrl: './contact.component.html',
   styles: [
   ]
 })
-export class ContactDetailsComponent implements OnInit {
+export class ContactComponent implements OnInit {
 
   formModal:any;
   formModalMail:any;
   formModalFilter: any;
   tempFilter: ContactFilter;
-  constructor(public service: ContactDetailService,private _router: Router,private route:ActivatedRoute, public tagService:TagDetailService) { }
+  constructor(public service: ContactService,private _router: Router,private route:ActivatedRoute, public tagService:TagService) { }
 
   ngOnInit(): void {
     this.service.refreshContacts()
@@ -41,7 +41,7 @@ export class ContactDetailsComponent implements OnInit {
 
     this.route.queryParams.subscribe(params=>{
       if (params['id'] > 0){
-        this.service.getContactDetail(params['id']).subscribe(data=>{
+        this.service.getContact(params['id']).subscribe(data=>{
           this.service.formData = data;
         })
       }
@@ -49,12 +49,12 @@ export class ContactDetailsComponent implements OnInit {
     
   }
 
-  updateContactData(selectedData: ContactDetail){
+  updateContactData(selectedData: Contact){
     this._router.navigate(['contact'],{ queryParams: { id: selectedData.id } });
   }
 
 
-  openEditModal(selectedData: ContactDetail){
+  openEditModal(selectedData: Contact){
     this.service.openEditModal(selectedData);
   }
 
@@ -72,12 +72,12 @@ export class ContactDetailsComponent implements OnInit {
 
   public saveModal(){
     //byapass selection 0
-    if (this.service.editFormData.tagDetailId == 0){
-      this.service.editFormData.tagDetailId = null!; 
+    if (this.service.editFormData.tagId == 0){
+      this.service.editFormData.tagId = null!; 
     }
     //continue
     if (this.service.editFormData.id == 0){
-      this.service.postContactDetail(this.service.editFormData).subscribe(
+      this.service.postContact(this.service.editFormData).subscribe(
         data => {
           console.log(data);
           
@@ -90,7 +90,7 @@ export class ContactDetailsComponent implements OnInit {
       this.closeModal();
     }
     else{
-      this.service.putContactDetail(this.service.editFormData,this.service.editFormData.id).subscribe(
+      this.service.putContact(this.service.editFormData,this.service.editFormData.id).subscribe(
         data => {
           this.service.refreshContacts()
         },err=>{
@@ -107,11 +107,11 @@ export class ContactDetailsComponent implements OnInit {
     this.saveModal();
   }
 
-  onDeleteContact(contactData: ContactDetail){
+  onDeleteContact(contactData: Contact){
     if (contactData.id == 0) return;
-    this.service.deleteContactDetail(contactData.id).subscribe(data=>{
+    this.service.deleteContact(contactData.id).subscribe(data=>{
       if (contactData.id == this.service.formData.id){
-        this.service.formData = new ContactDetail();
+        this.service.formData = new Contact();
         this._router.navigate(['']);
       }
       this.service.refreshContacts();
@@ -132,12 +132,11 @@ export class ContactDetailsComponent implements OnInit {
 
   editContactTagChange(value:any){
     if (value == 0){
-      this.service.editFormData.tagDetailId = null!;
-      this.service.editFormData.tagDetail = null!;
-      console.log("TagDetail");
-      console.log(this.service.editFormData.tagDetail)
+      this.service.editFormData.tagId = null!;
+      this.service.editFormData.tag = null!;
+      console.log(this.service.editFormData.tag)
     }
-    this.service.editFormData.tagDetailId = value;
+    this.service.editFormData.tagId = value;
   }
 
   closeFilterModal(){

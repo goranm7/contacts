@@ -11,35 +11,35 @@ namespace Contacts_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TelephoneDetailsController : ControllerBase
+    public class TelephoneController : ControllerBase
     {
-        private readonly ContactDetailContext _context;
+        private readonly ContactContext _context;
 
-        public TelephoneDetailsController(ContactDetailContext context)
+        public TelephoneController(ContactContext context)
         {
             _context = context;
         }
 
         // GET: api/TelephoneDetails
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<TelephoneDetail>>> GetTelephoneDetails()
+        public async Task<ActionResult<IEnumerable<Telephone>>> GetTelephoneDetails()
         {
-          if (_context.TelephoneDetails == null)
+          if (_context.Telephones == null)
           {
               return NotFound();
           }
-            return await _context.TelephoneDetails.ToListAsync();
+            return await _context.Telephones.ToListAsync();
         }
 
         // GET: api/TelephoneDetails/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<TelephoneDetail>> GetTelephoneDetail(int id)
+        public async Task<ActionResult<Telephone>> GetTelephoneDetail(int id)
         {
-          if (_context.TelephoneDetails == null)
+          if (_context.Telephones == null)
           {
               return NotFound();
           }
-            var telephoneDetail = await _context.TelephoneDetails.FindAsync(id);
+            var telephoneDetail = await _context.Telephones.FindAsync(id);
 
             if (telephoneDetail == null)
             {
@@ -52,7 +52,7 @@ namespace Contacts_API.Controllers
         // PUT: api/TelephoneDetails/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutTelephoneDetail(int id, TelephoneDetail telephoneDetail)
+        public async Task<IActionResult> PutTelephoneDetail(int id, Telephone telephoneDetail)
         {
             if (id != telephoneDetail.Id)
             {
@@ -83,13 +83,13 @@ namespace Contacts_API.Controllers
         // POST: api/TelephoneDetails
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<TelephoneDetail>> PostTelephoneDetail(TelephoneDetail telephoneDetail)
+        public async Task<ActionResult<Telephone>> PostTelephoneDetail(Telephone telephoneDetail)
         {
-          if (_context.TelephoneDetails == null)
+          if (_context.Telephones == null)
           {
               return Problem("Entity set 'ContactDetailContext.TelephoneDetails'  is null.");
           }
-            _context.TelephoneDetails.Add(telephoneDetail);
+            _context.Telephones.Add(telephoneDetail);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetTelephoneDetail", new { id = telephoneDetail.Id }, telephoneDetail);
@@ -99,17 +99,17 @@ namespace Contacts_API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTelephoneDetail(int id)
         {
-            if (_context.TelephoneDetails == null)
+            if (_context.Telephones == null)
             {
                 return NotFound();
             }
-            var telephoneDetail = await _context.TelephoneDetails.FindAsync(id);
+            var telephoneDetail = await _context.Telephones.FindAsync(id);
             if (telephoneDetail == null)
             {
                 return NotFound();
             }
 
-            _context.TelephoneDetails.Remove(telephoneDetail);
+            _context.Telephones.Remove(telephoneDetail);
             await _context.SaveChangesAsync();
 
             return NoContent();
@@ -117,7 +117,7 @@ namespace Contacts_API.Controllers
 
         private bool TelephoneDetailExists(int id)
         {
-            return (_context.TelephoneDetails?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Telephones?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

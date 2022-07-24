@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { TagDetail } from 'src/app/shared/tag-detail.model';
-import { TagDetailService } from 'src/app/shared/tag-detail.service';
+import { Tag } from 'src/app/shared/tag.model';
+import { TagService } from 'src/app/shared/tag.service';
 import { NgForm } from '@angular/forms';
 
 @Component({
@@ -11,12 +11,12 @@ import { NgForm } from '@angular/forms';
 })
 export class TagFormComponent implements OnInit {
 
-  constructor(public tagService: TagDetailService) { }
+  constructor(public tagService: TagService) { }
 
   ngOnInit(): void {
   }
 
-  onDelete(tagSelected: TagDetail){
+  onDelete(tagSelected: Tag){
     this.tagService.deleteTag(tagSelected.id).subscribe(data => {
       this.tagService.refreshTags();
     })
